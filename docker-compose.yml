@@ -1,7 +1,8 @@
 services:
   onlyoffice-documentserver:
-    build:
-      context: .
+    #build:
+    #  context: .
+    image: your_username/onlyoffice-unrestricted
     container_name: onlyoffice-documentserver
     depends_on:
       - onlyoffice-postgresql
@@ -35,8 +36,8 @@ services:
     container_name: onlyoffice-rabbitmq
     image: rabbitmq
     restart: always
-    expose:
-      - '5672'
+    #expose:
+    #  - '5672'
 
   onlyoffice-postgresql:
     container_name: onlyoffice-postgresql
@@ -46,8 +47,8 @@ services:
       - POSTGRES_USER=onlyoffice
       - POSTGRES_HOST_AUTH_METHOD=trust
     restart: always
-    expose:
-      - '5432'
+    #expose:
+    #  - '5432'
     volumes:
       - postgresql_data:/var/lib/postgresql
 

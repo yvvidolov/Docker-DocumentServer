@@ -103,7 +103,8 @@ ARG PRODUCT_NAME=documentserver
 ARG PRODUCT_EDITION=
 ARG PACKAGE_VERSION=
 ARG TARGETARCH
-ARG PACKAGE_BASEURL="http://download.onlyoffice.com/install/documentserver/linux"
+ARG PACKAGE_BASEURL="https://github.com/btactic-oo/unlimited-onlyoffice-package-builder/releases/download/onlyoffice-unlimited-build-debian-11%2F8.1.3.3/onlyoffice-documentserver_8.1.3-3-btactic_amd64.deb"
+ARG PACKAGE_FILE="onlyoffice-documentserver.deb"
 
 ENV COMPANY_NAME=$COMPANY_NAME \
     PRODUCT_NAME=$PRODUCT_NAME \
@@ -111,9 +112,10 @@ ENV COMPANY_NAME=$COMPANY_NAME \
     DS_PLUGIN_INSTALLATION=false \
     DS_DOCKER_INSTALLATION=true
 
-RUN PACKAGE_FILE="${COMPANY_NAME}-${PRODUCT_NAME}${PRODUCT_EDITION}${PACKAGE_VERSION:+_$PACKAGE_VERSION}_${TARGETARCH:-$(dpkg --print-architecture)}.deb" && \
-    wget -q -P /tmp "$PACKAGE_BASEURL/$PACKAGE_FILE" && \
-    apt-get -y update && \
+RUN wget -O /tmp/onlyoffice-documentserver.deb https://github.com/btactic-oo/unlimited-onlyoffice-package-builder/releases/download/onlyoffice-unlimited-build-debian-11%2F8.1.3.3/onlyoffice-documentserver_8.1.3-3-btactic_amd64.deb
+# COPY ./onlyoffice-documentserver.deb /tmp
+
+RUN apt-get -y update && \
     service postgresql start && \
     apt-get -yq install /tmp/$PACKAGE_FILE && \
     service postgresql stop && \
